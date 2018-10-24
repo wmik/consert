@@ -38,3 +38,65 @@ test("it should do something", c => {
   c.true(condition); // checks condition
 })
 ```
+
+## Implementation
+
+Nothing too complex. Only about [`22 LLOC`](https://en.wikipedia.org/wiki/Source_lines_of_code)
+```js
+var assert, // the object that will hold the api
+message; // provides more context for failing tests
+
+assert = {} // initialize empty object
+// TODO: assert.is = is;
+// TODO: assert.notEqual = notEqual;
+// TODO: assert.true = truthy;
+
+/**
+  * Test
+  * @param {any} description - Test description
+  * @param {any} callback - Test function
+*/
+function test(description, callback) {
+  callback(assert);
+}
+```
+
+The function above runs the callback function which in turn runs the assertions within it hence executing the test.
+
+Go ahead and implement the `is` feature that will be used to run simple equality checks as shown below *(comments not required)*.
+```js
+/**
+  * Checks equality
+  * @param {any} expected - Expected value
+  * @param {any} actual - Actual value
+*/
+function is(expected, actual) {
+  message = `Expected ${expeced} but received ${actual}`;
+  console.assert(expected === actual, { message });
+}
+
+assert.is = is;
+```
+
+Simply put the function above compares the `actual` value to the `expected` value using `strict equality`. If the check `FAILS`, it will output the `message` provided.
+
+Go ahead and test it.
+```js
+test("1 should equal 1", assert => {
+  assert.is(1, 1); // pass
+});
+
+test("2 should equal 2", check => {
+  check.is(2, "2"); // fail
+});
+
+test("true should be true", verify => {
+  verify.is(true, true); // pass
+});
+
+test("false should be false", confirm => {
+  confirm.is(false, true); // fail
+});
+```
+
+As you can see the argument name doesn't matter. Use whatever works for you but aim for legibility and simplicity.
